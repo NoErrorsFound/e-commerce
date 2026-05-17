@@ -1,0 +1,224 @@
+Practical 11 — CC Deployment of E-Commerce Web Application (Complete From Start)
+Step 1 — Launch EC2 Instance
+Open AWS Console
+Go to EC2
+Click Launch Instance
+Configure:
+Name: ecommerce-server
+OS: Ubuntu 22.04
+Instance Type: t2.micro
+Allow:
+HTTP
+HTTPS
+SSH
+
+Click Launch Instance
+
+Step 2 — Connect to EC2
+
+Click:
+
+Connect → EC2 Instance Connect → Connect
+
+Terminal will open.
+
+Step 3 — Update Ubuntu
+
+Run:
+
+sudo apt update
+sudo apt upgrade -y
+Step 4 — Install Git
+sudo apt install git -y
+
+Check:
+
+git --version
+Step 5 — Install Node.js 20
+
+Run:
+
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+
+Then:
+
+sudo apt-get install -y nodejs
+
+Check versions:
+
+node -v
+npm -v
+Step 6 — Install MongoDB
+
+Import key:
+
+curl -fsSL https://pgp.mongodb.com/server-7.0.asc | sudo gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg --dearmor
+
+Create source list:
+
+echo "deb [ arch=amd64 signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/7.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-7.0.list
+
+Update:
+
+sudo apt update
+
+Install MongoDB:
+
+sudo apt install mongodb-org -y
+
+Start MongoDB:
+
+sudo systemctl start mongod
+
+Enable MongoDB:
+
+sudo systemctl enable mongod
+
+Check status:
+
+sudo systemctl status mongod
+Step 7 — Clone GitHub Repository
+
+Run:
+
+git clone https://github.com/YOUR_USERNAME/e-commerce-application.git
+
+Example:
+
+git clone https://github.com/mrunalmohite120725/e-commerce-application.git
+
+Go inside project:
+
+cd e-commerce-application
+
+Check folders:
+
+ls
+
+You should see:
+
+backend  frontend
+Step 8 — Setup Backend
+
+Go to backend:
+
+cd backend
+
+Install backend packages:
+
+npm install
+
+Create .env file:
+
+nano .env
+
+then
+npm install dotenv
+
+Paste:
+
+PORT=5000
+MONGO_URI=mongodb://127.0.0.1:27017/ecommerce
+JWT_SECRET=mysecretkey
+
+Save:
+
+Ctrl + O
+Enter
+Ctrl + X
+Step 9 — Run Backend
+node server.js
+
+You should see:
+
+Server running on port 5000
+MongoDB Connected
+Step 10 — Open Backend Port
+
+AWS → EC2 → Security Groups → Inbound Rules → Edit
+
+Add:
+
+Type	Port	Source
+Custom TCP	5000	0.0.0.0/0
+
+Save Rules.
+
+Step 11 — Test Backend
+
+Open:
+
+http://YOUR_PUBLIC_IP:5000
+
+You should see:
+
+API is running...
+Step 12 — Open New Terminal
+
+Open another EC2 Instance Connect tab.
+
+Go to frontend:
+
+cd ~/e-commerce-application/frontend
+
+Install frontend packages:
+
+npm install
+
+10. Change API URL
+
+Go to src folder:
+
+cd src
+
+Open file:
+
+nano App.jsx
+
+OR
+
+nano App.js
+
+Find:
+
+http://localhost:5000
+
+Replace with:
+
+http://YOUR_PUBLIC_IP:5000
+
+Example:
+
+http://34.228.82.242:5000
+
+Save:
+
+CTRL + O Enter CTRL + X 11. Start Frontend
+
+Go back:
+
+cd ..
+
+Run frontend:
+
+npm run dev -- --host
+
+You will see:
+
+VITE ready
+
+and port like:
+
+5173 12. Open Website
+
+If shit happens
+
+rm -rf node_modules package-lock.json
+npm install
+
+then
+
+chmod +x node_modules/.bin/react-scripts
+HOST=0.0.0.0 npm start
+
+

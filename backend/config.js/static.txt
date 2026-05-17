@@ -1,0 +1,299 @@
+Practical No. 7
+Hosting Static Website on AWS EC2 Using Apache Server
+
+Use your travel blog HTML code for this practical.
+
+Step 1: Launch EC2 Instance
+Open AWS Console
+Search EC2
+Click Launch Instance
+
+Fill details:
+
+Name: travel-blog-server
+AMI: Ubuntu Server
+Instance type: t2.micro
+Key pair: Create or select existing
+Network settings:
+Allow SSH
+Allow HTTP traffic
+
+Click Launch Instance
+
+Step 2: Connect to Instance
+Go to Instances
+Select your instance
+Click Connect
+Click Connect again
+
+Terminal will open.
+
+Step 3: Update Ubuntu
+
+Run:
+
+sudo apt update
+Step 4: Install Apache Web Server
+
+Run:
+
+sudo apt install apache2 -y
+Step 5: Start Apache Server
+
+Run:
+
+sudo systemctl start apache2
+
+Enable Apache permanently:
+
+sudo systemctl enable apache2
+
+Check status:
+
+sudo systemctl status apache2
+
+You should see:
+
+active (running)
+Step 6: Open Default Website
+
+Copy your Public IP from EC2.
+
+Open browser:
+
+http://YOUR_PUBLIC_IP
+
+Apache default page will appear.
+
+Step 7: Go to Website Folder
+
+Run:
+
+cd /var/www/html
+Step 8: Remove Default Apache Page
+
+Run:
+
+sudo rm index.html
+Step 9: Create New HTML File
+
+Run:
+
+sudo nano index.html
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Blog</title>
+
+    <style>
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial, sans-serif;
+        }
+
+        body{
+            background:#f4f4f4;
+        }
+
+        header{
+            background:#0d6efd;
+            color:white;
+            padding:20px;
+            text-align:center;
+        }
+
+        nav{
+            background:#222;
+            padding:15px;
+            text-align:center;
+        }
+
+        nav a{
+            color:white;
+            text-decoration:none;
+            margin:15px;
+            font-size:18px;
+        }
+
+        .hero{
+            height:500px;
+            background:url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e') no-repeat center center/cover;
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            color:white;
+            text-align:center;
+        }
+
+        .hero h1{
+            font-size:60px;
+            background:rgba(0,0,0,0.5);
+            padding:20px;
+            border-radius:10px;
+        }
+
+        .container{
+            width:90%;
+            margin:auto;
+            padding:40px 0;
+        }
+
+        .cards{
+            display:flex;
+            gap:20px;
+            flex-wrap:wrap;
+            justify-content:center;
+        }
+
+        .card{
+            background:white;
+            width:300px;
+            border-radius:10px;
+            overflow:hidden;
+            box-shadow:0 4px 10px rgba(0,0,0,0.2);
+            transition:0.3s;
+        }
+
+        .card:hover{
+            transform:scale(1.05);
+        }
+
+        .card img{
+            width:100%;
+            height:200px;
+        }
+
+        .card-content{
+            padding:20px;
+        }
+
+        .card-content h3{
+            margin-bottom:10px;
+        }
+
+        .about{
+            background:white;
+            padding:40px;
+            margin-top:40px;
+            border-radius:10px;
+            text-align:center;
+        }
+
+        footer{
+            background:#222;
+            color:white;
+            text-align:center;
+            padding:20px;
+            margin-top:40px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>Wander World Travel Blog</h1>
+        <p>Explore Beautiful Destinations Around The World</p>
+    </header>
+
+    <nav>
+        <a href="#">Home</a>
+        <a href="#">Destinations</a>
+        <a href="#">Blogs</a>
+        <a href="#">Gallery</a>
+        <a href="#">Contact</a>
+    </nav>
+
+    <section class="hero">
+        <h1>Travel The World With Us</h1>
+    </section>
+
+    <div class="container">
+
+        <h2 style="text-align:center; margin-bottom:30px;">
+            Popular Destinations
+        </h2>
+
+        <div class="cards">
+
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb">
+                <div class="card-content">
+                    <h3>Switzerland</h3>
+                    <p>Enjoy beautiful mountains, lakes and snowy adventures.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1493558103817-58b2924bce98">
+                <div class="card-content">
+                    <h3>Paris</h3>
+                    <p>Experience the city of love and the Eiffel Tower.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee">
+                <div class="card-content">
+                    <h3>Maldives</h3>
+                    <p>Relax on beautiful beaches with crystal clear water.</p>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="about">
+            <h2>About Our Blog</h2>
+            <br>
+            <p>
+                This travel blog website is hosted on AWS EC2 Ubuntu Server.
+                Explore amazing travel destinations, blogs and adventures from around the world.
+            </p>
+
+            <br>
+
+            <h3>Created By: Mrunal Mohite</h3>
+            <p>Cloud Computing Practical</p>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>© 2026 Wander World Travel Blog | AWS EC2 Hosted Website</p>
+    </footer>
+
+</body>
+</html>
+
+
+
+Step 10: Save File
+
+Press:
+
+CTRL + O
+
+Press Enter.
+
+Then:
+
+CTRL + X
+Step 11: Restart Apache
+
+Run:
+
+sudo systemctl restart apache2
+Step 12: Open Website
+
+Open browser:
+
+http://YOUR_PUBLIC_IP
+
+Now your travel blog website will appear.

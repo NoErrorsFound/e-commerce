@@ -1,0 +1,40 @@
+AWS Secure File Sharing Between EC2 Instances
+Step 1 - Connect to Sender EC2
+Command:
+ssh -i sender.pem ubuntu@SENDER_PUBLIC_IP
+
+Step 2 - Create Demo File
+Command:
+echo "Secure Cloud File Transfer" > demo.txt
+
+Step 3 - Verify File
+Command:
+ls
+
+Step 4 - Upload PEM Key from Local Machine
+Command:
+scp -i sender.pem sender.pem ubuntu@SENDER_PUBLIC_IP:/home/ubuntu/
+
+Step 5 - Connect Again to Sender
+Command:
+ssh -i sender.pem ubuntu@SENDER_PUBLIC_IP
+
+Step 6 - Verify PEM Key Exists
+Command:
+ls
+
+Step 7 - Set Proper Permission
+Command:
+chmod 400 sender.pem
+
+Step 8 - Securely Transfer File to Receiver
+Command:
+scp -i sender.pem demo.txt ubuntu@RECEIVER_PRIVATE_IP:/home/ubuntu/
+
+Step 9 - Connect to Receiver EC2
+Command:
+ssh -i sender.pem ubuntu@RECEIVER_PUBLIC_IP
+
+Step 10 - Verify Received File
+Command:
+cat demo.txt

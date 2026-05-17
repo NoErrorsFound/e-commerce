@@ -1,0 +1,174 @@
+Practical 14 — CC Cloud-Based To-Do List Manager (MERN)
+
+
+Step 1 — Launch EC2 Instance
+
+AWS Console → EC2 → Launch Instance
+
+Choose:
+
+Setting	Value
+Name	blog-app
+AMI	Ubuntu
+Instance Type	t2.micro
+Allow Traffic	HTTP + SSH
+
+Click:
+
+Launch Instance
+
+
+
+
+
+Step 2 — Connect to EC2
+
+Click:
+
+Connect → EC2 Instance Connect → Connect
+
+
+
+
+
+
+Step 3 — Update Ubuntu
+
+Run:
+
+sudo apt update
+
+
+
+
+
+Step 4 — Install Node.js
+
+Run:
+
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+
+sudo apt install -y nodejs
+
+Check:
+
+node -v
+npm -v
+
+
+
+
+Step 5 — Install MongoDB
+
+Run:
+
+sudo apt-get install gnupg curl
+curl -fsSL https://pgp.mongodb.com/server-6.0.asc | sudo gpg -o /usr/share/keyrings/mongodb-server-6.0.gpg --dearmor
+
+
+echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+
+
+sudo apt update
+
+
+sudo apt install -y mongodb-org
+
+
+
+
+
+
+
+Step 6 — Start MongoDB
+
+Run:
+
+sudo systemctl start mongod
+
+sudo systemctl enable mongod
+
+Check:
+
+sudo systemctl status mongod
+
+
+
+
+
+
+
+Step 7 — Clone Project
+
+Run:
+
+git clone YOUR_GITHUB_BLOG_URL.git
+
+Example:
+
+git clone https://github.com/yourusername/blog-app.git
+
+
+
+
+
+Step 8 — Backend Setup
+
+Go to backend:
+
+cd backend
+
+Install packages:
+
+npm install
+
+Create .env:
+
+nano .env
+
+Add:
+
+PORT=5000
+MONGO_URI=mongodb://127.0.0.1:27017/todoapp
+JWT_SECRET=mysecretkey
+
+Save:
+
+Ctrl + O
+Enter
+Ctrl + X
+
+run : npm install dotenv
+and 
+npm install
+
+Run backend:
+
+node server.js
+
+OR
+
+npm start
+
+
+Go to frontend:
+
+cd ~/todo-app/frontend
+
+Install packages:
+
+npm install
+
+Run frontend:
+
+npm run dev -- --host
+
+OR
+
+npm start
+
+
+
+
+Step 9 — Open Website
+http://YOUR_PUBLIC_IP:5173

@@ -1,0 +1,152 @@
+Practical 9 — Online Blog Application Deployment (AWS EC2)
+Aim
+
+Deploy a full-stack blog application on AWS cloud using EC2, Node.js, and MongoDB.
+
+Step 1 — Launch EC2 Instance
+
+AWS Console → EC2 → Launch Instance
+
+Choose:
+
+Setting	Value
+Name	blog-app
+AMI	Ubuntu
+Instance Type	t2.micro
+Allow Traffic	HTTP + SSH
+
+Click:
+
+Launch Instance
+Step 2 — Connect to EC2
+
+Click:
+
+Connect → EC2 Instance Connect → Connect
+Step 3 — Update Ubuntu
+
+Run:
+
+sudo apt update
+Step 4 — Install Node.js
+
+Run:
+
+curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
+
+sudo apt install -y nodejs
+
+Check:
+
+node -v
+npm -v
+Step 5 — Install MongoDB
+
+Run:
+
+sudo apt-get install gnupg curl
+curl -fsSL https://pgp.mongodb.com/server-6.0.asc | sudo gpg -o /usr/share/keyrings/mongodb-server-6.0.gpg --dearmor
+
+
+echo "deb [ arch=amd64,arm64 signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg ] https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-6.0.list
+
+sudo apt update
+
+sudo apt install -y mongodb-org
+
+Step 6 — Start MongoDB
+
+Run:
+
+sudo systemctl start mongod
+sudo systemctl enable mongod
+
+Check:
+
+sudo systemctl status mongod
+Step 7 — Clone Blog Project
+
+Run:
+
+git clone YOUR_GITHUB_BLOG_URL
+
+Example:
+
+git clone https://github.com/yourusername/blog-app.git
+Step 8 — Open Project Folder
+
+Run:
+
+cd blog-app
+
+Check files:
+
+ls
+Step 9 — Install Dependencies
+
+Run:
+
+npm install
+Step 10 — Open Port in Security Group
+
+AWS Console → EC2 → Security Groups → Inbound Rules
+
+Add:
+
+Type	Port	Source
+Custom TCP	3000	Anywhere IPv4
+
+Click:
+
+Save rules
+Step 11 — Run Blog Application
+
+Run:
+
+node app.js
+
+OR
+
+npm start
+
+You should see:
+
+Server started
+Connected to MongoDB
+
+DO NOT PRESS CTRL+C.
+
+Step 12 — Open Blog Website
+
+Browser:
+
+http://YOUR_PUBLIC_IP:3000
+
+Example:
+
+http://54.174.125.83:3000
+Step 13 — Run Permanently Using PM2
+
+Stop once:
+
+CTRL + C
+
+Install PM2:
+
+sudo npm install -g pm2
+
+Start:
+
+pm2 start app.js
+
+OR
+
+pm2 start index.js
+
+Check:
+
+pm2 list
+
+Save:
+
+pm2 save
