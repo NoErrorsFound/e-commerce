@@ -112,6 +112,9 @@ Create .env file:
 
 nano .env
 
+then
+npm install dotenv
+
 Paste:
 
 PORT=5000
